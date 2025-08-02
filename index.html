@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration System</title>
+    <!-- Linking external CSS file (Tailwind or custom styles) -->
+    <link rel="stylesheet" href="output.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google Fonts: Bungee for header -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- ================= HEADER SECTION ================= -->
+    <header class="text-center py-4">
+        <h1 class="text-4xl md:text-4xl font-semibold relative inline-block head">
+            <!-- Gradient Title with Custom Font -->
+            Student Registration System
+        </h1>
+        <p class="text-sm md:text-base mt-3 text-gray-600 font-semibold">
+            <!-- Subheading below title -->
+            Effortlessly manage student records with add, edit, and delete functionalities.
+        </p>
+    </header>
+
+
+    <!-- Cards Section (Add + Total Students) -->
+    <section class="cards mt-3">
+        <!-- === Register Student Card === -->
+        <div class="card register" onclick="openModal()">
+            <i class="fas fa-user-plus text-3xl mb-2"></i>
+            <h3 class="text-xl font-bold">Register Student</h3>
+        </div>
+
+        <!-- === Total Students Card === -->
+        <div class="card total">
+            <i class="fas fa-users text-3xl mb-2"></i>
+            <h3 class="text-xl font-bold">Total Students</h3>
+            <p id="totalStudents">0</p>
+        </div>
+
+    </section>
+
+    <!-- ================= STUDENT RECORDS TABLE ================= -->
+    <main class="max-w-6xl mx-auto mt-6 mb-10 px-4">
+        <!-- Table Wrapper with scroll for horizontal overflow -->
+        <div class="bg-white shadow rounded-xl overflow-x-auto">
+            <!-- Scrollable vertical wrapper (visible on small screens only) -->
+            <div id="scrollableBodyWrapper" class="max-h-[210px] overflow-y-auto sm:max-h-none ">
+                <table class="min-w-full text-sm text-left">
+                    <!-- === Table Headings === -->
+                    <thead class="sticky top-0 z-10 bg-indigo-100 text-indigo-700">
+                        <tr>
+                            <th class="px-4 py-4 font-semibold text-gray-600 whitespace-nowrap">Name</th>
+                            <th class="px-4 py-4 font-semibold text-gray-600 whitespace-nowrap">Student ID</th>
+                            <th class="px-4 py-4 font-semibold text-gray-600 whitespace-nowrap">Email</th>
+                            <th class="px-4 py-4 font-semibold text-gray-600 whitespace-nowrap">Contact No</th>
+                            <th class="px-4 py-4 font-semibold text-gray-600 whitespace-nowrap">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <!-- === Table Body for Student Records === -->
+                    <tbody id="studentsTableBody" class="divide-y divide-gray-200">
+                        <!-- Dynamic rows will be inserted here by JavaScript -->
+                    </tbody>
+
+                    <!-- === Message when no students exist === -->
+                    <tbody id="noRecordsMessage" class="hidden">
+                        <tr>
+                            <td colspan="5" class="text-center text-gray-500 py-4">
+                                No records found. Please register a student.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- ================= MODAL SECTION ================= -->
+
+    <!-- Hidden modal that appears when adding or editing student -->
+    <section id="studentModal" class="modal">
+        <!-- Centered box containing the form -->
+        <div class="modal-content">
+            <h2 class="text-lg font-semibold head text-center text-[#AD1457] mb-4">Register Student</h2>
+            <!-- Student Form -->
+            <form id="studentForm">
+                <!-- === Name Input === -->
+                <div class="mb-4">
+                    <input type="text" id="studentName" name="studentName" placeholder="Name" required
+                        class="border border-gray-400 rounded-2xl p-2 w-full">
+                    <!-- Error message for name validation -->
+                    <span class="error" id="nameError"></span>
+                </div>
+                <!-- === Student ID Input === -->
+                <div class="mb-4">
+                    <input type="number" id="studentId" name="studentId" placeholder="Student ID" required
+                        class="border border-gray-400 rounded-2xl p-2 w-full">
+                    <!-- Error message for ID validation -->
+                    <span class="error" id="idError"></span>
+                </div>
+                <!-- === Email Input === -->
+                <div class="mb-4">
+                    <input type="email" id="studentEmail" name="studentEmail" placeholder="Email" required
+                        class="border border-gray-400 rounded-2xl p-2 w-full">
+                    <!-- Error message for email validation -->
+                    <span class="error" id="emailError"></span>
+                </div>
+                <!-- === Contact Number Input === -->
+                <div class="mb-4">
+                    <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" required
+                        class="border border-gray-400 rounded-2xl p-2 w-full">
+                    <!-- Error message for contact number validation -->
+                    <span class="error" id="contactError"></span>
+                </div>
+                <!-- Validation Note -->
+                <section id="note">
+                    <div
+                        class="note justify-center text-center max-w-4xl mx-auto mt-6 p-4 rounded-lg bg-note-bg text-note-text">
+                        <strong>Note:</strong>
+                        Name must contain only letters,
+                        ID must be a number,
+                        Email should be valid, and
+                        Contact must be a 10-digit number.
+                    </div>
+                </section>
+                <!-- === Submit and Cancel Buttons === -->
+                <div class="flex justify-between">
+                    <!-- Register / Update Button -->
+                    <button type="submit" id="submitBtn" class="glossy-button">
+                        <div class="inner">
+                            <div class="top-white"></div>
+                            <span class="text">Register</span>
+                        </div>
+                    </button>
+                    <!-- Cancel Button -->
+                    <button type="button" onclick="closeModal()" class="glossy-button cancel">
+                        <div class="inner">
+                            <div class="top-white"></div>
+                            <span class="text">Cancel</span>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Linking external JavaScript file -->
+    <script src="index.js"></script>
+</body>
+
+</html>
