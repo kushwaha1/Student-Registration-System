@@ -1,0 +1,352 @@
+@import "tailwindcss";
+
+/* ========== GLOBAL RESET & BASE STYLES ========== */
+/* Applies border-box model to all elements for consistent sizing */
+* {
+    box-sizing: border-box;
+}
+
+/* Basic body styles with background and font */
+body {
+    background-color: #FFF7F1;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    animation: fadeIn 0.6s ease;
+}
+
+/* Header title styles */
+.head {
+    font-family: "Bungee", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background: linear-gradient(to right, #6C63FF, #d8506a);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Small red error text under input fields */
+.error {
+    color: red;
+    font-size: 0.875rem;
+}
+
+/* Info note block inside modal */
+.note {
+    background-color: #FCE4EC;
+    color: #AD1457;
+    border-left: 5px solid #FF6584;
+    padding: 10px 15px;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+/* ========== BUTTONS & INTERACTIONS ========== */
+
+/* For edit/delete buttons in table */
+.action-btn {
+    padding: 0px 2px 0px 2px;
+    transition: all 0.3s ease;
+}
+
+/* Action button hover effect */
+.action-btn:hover {
+    transform: scale(1.2);
+}
+
+/* ========== TABLE STYLING ========== */
+
+/* Table row hover effect */
+tbody tr:hover {
+    background-color: #f9f5ff;
+    transition: background 0.3s ease;
+}
+
+/* Custom scrollbar for student table */
+#scrollableBodyWrapper::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+#scrollableBodyWrapper::-webkit-scrollbar-thumb {
+    background-color: #6C63FF;
+    border-radius: 3px;
+}
+
+/* ========== LAYOUT & STRUCTURE ========== */
+
+/* Cards container layout */
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.card {
+    position: relative;
+    cursor: pointer;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    width: 250px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    background: var(--gradient);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Animated shine overlay on cards */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(-65deg, #0000 40%, #fff5 50%, #0000 70%);
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: thing 3s ease infinite;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.card * {
+    position: relative;
+    z-index: 2;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    /* Slight lift */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+    /* Stronger shadow on hover */
+}
+
+/* Specific gradients for each card type */
+.card.register {
+    --gradient: linear-gradient(#d8506a, #ff9cac);
+}
+
+.card.total {
+    --gradient: linear-gradient(#6C63FF, #a0a4ff);
+}
+
+/* Animation for cards on load */
+.cards>.card {
+    animation: riseIn 0.6s ease;
+}
+
+
+/* Modal overlay (background blur + semi-transparent black) */
+/* Ensure modal container stays centered and scrolls on small screens */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 50;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* allow scrolling if content is tall */
+    background-color: rgba(0, 0, 0, 0.35);
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.4s ease;
+    padding: 1rem;
+    /* add padding for small screens */
+}
+
+/* Make modal content scrollable on small screens */
+.modal-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    /* limit height */
+    overflow-y: auto;
+    /* scroll inside content */
+    animation: popIn 0.4s ease;
+}
+
+
+
+/* Keyframes for card rise-in animation */
+@keyframes riseIn {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Keyframes for modal pop-in animation */
+@keyframes popIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ========== GLOSSY BUTTONS (Modal Register/Cancel) ========== */
+
+.glossy-button {
+    cursor: pointer;
+    position: relative;
+    padding: 2px;
+    border-radius: 6px;
+    border: 0;
+    text-shadow: 1px 1px #000a;
+    background: linear-gradient(#d8506a, #ff9cac);
+    box-shadow: 0px 4px 6px 0px #0008;
+    transition: 0.3s all;
+}
+
+.glossy-button:hover {
+    box-shadow: 0px 6px 12px 0px #0009;
+}
+
+.glossy-button:active {
+    box-shadow: 0px 0px 0px 0px #0000;
+}
+
+/* Inner content of button with shine overlay */
+.inner {
+    position: relative;
+    inset: 0px;
+    padding: 1em;
+    border-radius: 4px;
+    background: radial-gradient(circle at 50% 100%, #ff9cab 10%, #30f8f800 55%),
+        linear-gradient(#d8506a, #ff9cac);
+    overflow: hidden;
+    transition: inherit;
+}
+
+.inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(-65deg, #0000 40%, #fff7 50%, #0000 70%);
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: thing 3s ease infinite;
+}
+
+.glossy-button.cancel {
+    background: linear-gradient(#6C63FF, #a0a4ff);
+}
+
+.glossy-button.cancel .inner {
+    background: radial-gradient(circle at 50% 100%, #b9bfff 10%, #30f8f800 55%),
+        linear-gradient(#6C63FF, #a0a4ff);
+}
+
+/* Top white gloss effect */
+.top-white {
+    position: absolute;
+    border-radius: inherit;
+    inset: 0 -8em;
+    background: radial-gradient(circle at 50% -270%,
+            #fff 45%,
+            #fff6 60%,
+            #fff0 60%);
+    transition: inherit;
+}
+
+.inner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transition: inherit;
+    box-shadow: inset 0px 2px 8px -2px #0000;
+}
+
+.glossy-button:active .inner::after {
+    box-shadow: inset 0px 2px 8px -2px #000a;
+}
+
+.text {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-weight: 550;
+    transition: inherit;
+}
+
+/* ========== ANIMATIONS ========== */
+
+@keyframes thing {
+    0% {
+        background-position: 130%;
+        opacity: 1;
+    }
+
+    to {
+        background-position: -166%;
+        opacity: 0;
+    }
+}
+
+/* Keyframes for card rise-in animation */
+@keyframes riseIn {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Keyframes for modal pop-in animation */
+@keyframes popIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
